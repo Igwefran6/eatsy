@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Header from "../components/Header";
 import { getRandomNumber } from "../utils/getRandomNumber";
 import ScrollDownIndicator from "../components/ScrollDownIndicator";
+import FoodMenu from "../components/FoodMenu";
 
 const HomePage: React.FC = () => {
   const [hasReachedTop, setHasReachedTop] = useState(false);
@@ -15,7 +16,7 @@ const HomePage: React.FC = () => {
         const topPosition =
           secondSectionRef.current.getBoundingClientRect().top;
         // Check if the second section has reached the top of the viewport
-        setHasReachedTop(topPosition <= 4);
+        setHasReachedTop(topPosition <= 460);
       }
     };
 
@@ -55,21 +56,30 @@ const HomePage: React.FC = () => {
       {/* Second section */}
       <motion.section
         ref={secondSectionRef}
-        className="relative mt-[85vh] z-10 bg-brand h-screen p-8 text-center"
-        initial={{
-          borderTopWidth: 4,
-          borderTopLeftRadius: hasReachedTop ? "0px" : "85px",
-          borderTopRightRadius: hasReachedTop ? "0px" : "85px",
-        }}
-        animate={{
-          borderTopWidth: hasReachedTop ? 0 : 4,
-          borderTopLeftRadius: hasReachedTop ? "0px" : "85px",
-          borderTopRightRadius: hasReachedTop ? "0px" : "85px",
-        }}
+        className="relative mt-[100vh] z-10 bg-brand h-screen p-8 text-center"
       >
-        <p className="font-jeju text-2xl">Our Delicious Menu</p>
+        <motion.div
+          className={
+            `font-jeju text-2xl absolute top-[-96px] translate-x-[50%] right-[50%] z-10 w-full bg-brand p-8 ` +
+            (hasReachedTop ? "border" : "")
+          }
+          initial={{
+            borderTopWidth: 4,
+            borderTopLeftRadius: hasReachedTop ? "0px" : "85px",
+            borderTopRightRadius: hasReachedTop ? "0px" : "85px",
+          }}
+          animate={{
+            borderTopWidth: hasReachedTop ? 0 : 4,
+            borderTopLeftRadius: hasReachedTop ? "0px" : "85px",
+            borderTopRightRadius: hasReachedTop ? "0px" : "85px",
+            top: hasReachedTop ? "0px" : "-95px",
+          }}
+        >
+          Our Delicious Menu
+        </motion.div>
+        <FoodMenu />
       </motion.section>
-      <ScrollDownIndicator />
+      <ScrollDownIndicator hidden={!hasReachedTop} />
     </>
   );
 };
