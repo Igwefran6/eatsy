@@ -8,7 +8,7 @@ export default {
       light: "#ffffff",
       dark: "#1E1E1E",
       "dark-light": "#1E1E1Eaa",
-      brand: "#f4c430",
+      brand: "#F7A900",
     },
     extend: {
       fontFamily: {

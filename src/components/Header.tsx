@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { getRandomNumber } from "../utils/getRandomNumber";
 import { MenuIcon, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [randomRotation, setRandomRotation] = useState(0);
@@ -23,43 +24,48 @@ const Header: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  return (
-    <div className="flex flex-row w-svw px-16 py-8 font-jeju text-xl text-brand justify-between no-copy relative">
-      <motion.div
-        whileHover={{ scale: 1.2, cursor: "pointer" }}
-        whileTap={{ scale: 1 }}
-      >
-        Eatsy
-      </motion.div>
+  const liStyle =
+    "flex justify-center items-center bg-dark-light py-1 px-4 rounded-full border-2 text-brand text-lg";
 
+  return (
+    <div className="flex flex-row w-svw px-16 py-8 font-jeju text-xl justify-between no-copy relative overflow-hidden">
+      <Link to={"/"}>
+        {" "}
+        <motion.div
+          whileHover={{ scale: 1.2, cursor: "pointer" }}
+          whileTap={{ scale: 1 }}
+          className="bg-dark-light py-1 px-4 rounded-full border-2 text-brand"
+        >
+          Eatsy
+        </motion.div>
+      </Link>
       {/* Mobile Menu Icon */}
       <div className="lg:hidden" onClick={toggleMenu}>
         <MenuIcon color="#f4c430" size={28} />
       </div>
 
       {/* PC Navigation */}
-      <ul className="lg:flex flex-row gap-8 hidden">
-        <motion.li
-          onHoverStart={handleHover}
-          whileHover={liHover}
-          whileTap={liTap}
-        >
-          Socials
-        </motion.li>
-        <motion.li
-          onHoverStart={handleHover}
-          whileHover={liHover}
-          whileTap={liTap}
-        >
-          Contact
-        </motion.li>
-        <motion.li
-          onHoverStart={handleHover}
-          whileHover={liHover}
-          whileTap={liTap}
-        >
-          About
-        </motion.li>
+      <ul className="lg:flex items-center flex-row gap-4 hidden text-dark">
+        <Link to={"/contact"}>
+          <motion.li
+            className={liStyle}
+            onHoverStart={handleHover}
+            whileHover={liHover}
+            whileTap={liTap}
+          >
+            Contacts
+          </motion.li>
+        </Link>
+        <Link to={"/about"}>
+          <motion.li
+            className={liStyle}
+            onHoverStart={handleHover}
+            whileHover={liHover}
+            whileTap={liTap}
+          >
+            About
+          </motion.li>
+        </Link>
       </ul>
 
       {/* Mobile Menu */}
@@ -75,9 +81,12 @@ const Header: React.FC = () => {
             <X size={28} color="#333" onClick={toggleMenu} />
           </div>
           <nav className="mt-8 space-y-6 font-bold text-lg text-dark">
-            <motion.li whileTap={liTap}>Socials</motion.li>
-            <motion.li whileTap={liTap}>Contact</motion.li>
-            <motion.li whileTap={liTap}>About</motion.li>
+            <motion.li whileTap={liTap}>
+              <Link to={"/contact"}>Contacts</Link>
+            </motion.li>
+            <motion.li whileTap={liTap}>
+              <Link to={"/about"}>About</Link>
+            </motion.li>
           </nav>
         </motion.div>
       )}

@@ -4,14 +4,14 @@ import HPage from "./HPage";
 import Loading from "./Loading";
 
 const HomePage = () => {
-  const backgroundImageSrc = "/images/rice-chicken.png";
-
+  const backgroundImageSrc = "/images/eatsy-food.png";
   return (
     <Suspense fallback={<Loading />}>
       <motion.div
-        initial={{ opacity: 0.5 }}
+        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 2, ease: "easeInOut" }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5, ease: "anticipate" }}
       >
         <HPage src={backgroundImageSrc} />
       </motion.div>

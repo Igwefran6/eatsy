@@ -37,7 +37,7 @@ const HPage: React.FC<{ src: string }> = ({ src }) => {
     <>
       {/* First section */}
       <motion.section className="fixed top-0 left-0 w-screen h-screen z-[-1] no-copy">
-        <motion.div
+        <div
           className="bg-cover bg-center h-svh"
           style={{ backgroundImage: `url(${src})` }}
         >
@@ -46,7 +46,7 @@ const HPage: React.FC<{ src: string }> = ({ src }) => {
             <motion.div
               onHoverStart={handleHover}
               whileHover={{ scale: 1.2, rotate: randomRotation }}
-              className="bg-dark-light w-fit py-2 lg:py-4 px-12 border-2 border-brand rounded-full text-8xl relative"
+              className="bg-dark-light w-fit py-2 lg:py-4 px-12 border-2 border-brand rounded-full text-7xl relative"
             >
               Eatsy
               <span className="absolute -top-8 -right-8 font-harlows text-dark text-4xl w-full ">
@@ -54,7 +54,7 @@ const HPage: React.FC<{ src: string }> = ({ src }) => {
               </span>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </motion.section>
 
       {/* Second section */}
