@@ -1,16 +1,17 @@
-// PageComponent.tsx
-
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import { getRandomNumber } from "../utils/getRandomNumber";
 import ScrollDownIndicator from "../components/ScrollDownIndicator";
 import FoodMenu from "../components/FoodMenu";
+import { BackgroundImageLoader } from "../utils/BackgroundImageLoader";
 
-const HPage: React.FC = () => {
+const HPage: React.FC<{ src: string }> = ({ src }) => {
   const [hasReachedTop, setHasReachedTop] = useState(false);
   const [randomRotation, setRandomRotation] = useState(0);
   const secondSectionRef = useRef<HTMLDivElement | null>(null);
+
+  BackgroundImageLoader(src);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +37,10 @@ const HPage: React.FC = () => {
     <>
       {/* First section */}
       <motion.section className="fixed top-0 left-0 w-screen h-screen z-[-1] no-copy">
-        <motion.div className="bg-[url('/images/rice-chicken.png')] bg-cover bg-center h-svh">
+        <motion.div
+          className="bg-cover bg-center h-svh"
+          style={{ backgroundImage: `url(${src})` }}
+        >
           <Header />
           <div className="relative font-jeju text-brand h-full w-full flex justify-center items-center pb-36">
             <motion.div
