@@ -13,7 +13,7 @@ const HomePage = () => {
         exit={{ opacity: 0.5 }}
         transition={{ duration: 0.5, ease: "anticipate" }}
       >
-        <div className="bg-brand">
+        <div className="bg-brand max-h-screen">
           <HPage src={backgroundImageSrc} />
         </div>
       </motion.div>
