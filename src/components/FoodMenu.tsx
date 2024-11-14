@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { ArrowBigRightDash, ArrowBigLeftDash } from "lucide-react";
 import sortFoodInCategories from "../utils/sortFoodInCategories";
-
 const data = {
   Appetizers: [
     { food: "Spring Rolls", description: "Crispy and fresh.", price: 4000 },
@@ -105,23 +104,44 @@ const data = {
     { food: "Mac and Cheese", description: "Creamy and cheesy.", price: 4000 },
   ],
 };
-
 const foodData = sortFoodInCategories(data);
-
 const categories = Object.keys(foodData);
 
 const FoodMenu: React.FC = () => {
   const [currentCategory, setCurrentCategory] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 3; // Limit to three items per page
 
-  const handleNext = () => {
+  // Safely get items for the current category, if it exists
+  const currentCategoryItems = foodData[categories[currentCategory]] || [];
+  const maxPage = Math.ceil(currentCategoryItems.length / itemsPerPage) - 1;
+
+  const handleNextCategory = () => {
     setCurrentCategory((prev) => (prev + 1) % categories.length);
+    setCurrentPage(0); // Reset to first page of new category
   };
 
-  const handlePrev = () => {
+  const handlePrevCategory = () => {
     setCurrentCategory(
       (prev) => (prev - 1 + categories.length) % categories.length
     );
+    setCurrentPage(0); // Reset to first page of new category
   };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => (prev < maxPage ? prev + 1 : prev));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev));
+  };
+
+  // Calculate the items for the current page
+  const startIdx = currentPage * itemsPerPage;
+  const paginatedItems = currentCategoryItems.slice(
+    startIdx,
+    startIdx + itemsPerPage
+  );
 
   return (
     <div className="relative space-y-10 p-4 w-full pt-[96px] min-h-full">
@@ -129,8 +149,8 @@ const FoodMenu: React.FC = () => {
         {categories[currentCategory]}
       </h2>
 
-      {/* Table container with horizontal scroll */}
-      <motion.div className="overflow-x-auto w-full flex items-center justify-center relative">
+      {/* Table container */}
+      <motion.div className="w-full flex items-center justify-center relative">
         <motion.table
           key={categories[currentCategory]} // Key based on category
           className="w-full max-w-4xl text-left border-collapse"
@@ -147,7 +167,7 @@ const FoodMenu: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {foodData[categories[currentCategory]].map((item, idx) => (
+            {paginatedItems.map((item, idx) => (
               <tr key={idx}>
                 <td className="p-2 border-b">{item.food}</td>
                 <td className="p-2 border-b">{item.description}</td>
@@ -160,15 +180,15 @@ const FoodMenu: React.FC = () => {
         </motion.table>
       </motion.div>
 
-      {/* Navigation buttons */}
+      {/* Category Navigation */}
       <motion.div
         whileHover={{ scale: 1.2 }}
         whileTap={{ scale: 1 }}
         className="absolute bottom-4 transform left-4"
       >
         <button
-          onClick={handlePrev}
-          className="bg-gray-700 p-2 rounded-full text-white"
+          onClick={handlePrevCategory}
+          className="p-2 rounded-full text-white"
         >
           <ArrowBigLeftDash size={42} />
         </button>
@@ -179,28 +199,29 @@ const FoodMenu: React.FC = () => {
         className="absolute bottom-4 transform right-4"
       >
         <button
-          onClick={handleNext}
-          className="bg-gray-700 p-2 rounded-full text-white"
+          onClick={handleNextCategory}
+          className="p-2 rounded-full text-white"
         >
           <ArrowBigRightDash size={42} />
         </button>
       </motion.div>
 
-      {/* Dot indicators */}
-      <div className="flex justify-center space-x-2 mt-4 absolute bottom-2 right-1/2 translate-x-1/2">
-        {categories.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentCategory(index)}
-            className={
-              `w-3 h-3 rounded-full transition-all duration-300 hover:cursor-pointer ` +
-              (index === currentCategory
-                ? "bg-dark scale-125"
-                : "bg-dark-light")
-            }
-            aria-label={`Go to ₦{categories[index]} category`}
-          ></button>
-        ))}
+      {/* Page Navigation within Category */}
+      <div className="flex justify-center space-x-2 mt-4">
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 0}
+          className="p-2 disabled:text-dark-light"
+        >
+          Previous Page
+        </button>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage >= maxPage}
+          className="p-2 disabled:text-dark-light"
+        >
+          Next Page
+        </button>
       </div>
     </div>
   );

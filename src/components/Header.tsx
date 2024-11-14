@@ -32,17 +32,20 @@ const Header: React.FC = () => {
       <Link to={"/"}>
         {" "}
         <motion.div
-          whileHover={{ scale: 1.2, cursor: "pointer" }}
-          whileTap={{ scale: 1 }}
+          whileTap={{ scale: 0.9 }}
           className="bg-dark-light py-1 px-4 rounded-full border-2 text-brand"
         >
           Eatsy
         </motion.div>
       </Link>
       {/* Mobile Menu Icon */}
-      <div className="lg:hidden" onClick={toggleMenu}>
+      <motion.div
+        whileTap={{ scale: 0.9 }}
+        className="lg:hidden p-1 bg-dark-light border-2 border-brand rounded-full "
+        onClick={toggleMenu}
+      >
         <MenuIcon color="#f4c430" size={28} />
-      </div>
+      </motion.div>
 
       {/* PC Navigation */}
       <ul className="lg:flex items-center flex-row gap-4 hidden text-dark">
